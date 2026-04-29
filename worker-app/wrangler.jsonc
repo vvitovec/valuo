@@ -1,0 +1,39 @@
+{
+	"$schema": "../node_modules/wrangler/config-schema.json",
+	"name": "valuo",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-03-30",
+	"workers_dev": true,
+	"preview_urls": true,
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"assets": {
+		"directory": "./public",
+		"binding": "ASSETS"
+	},
+	"routes": [
+		{
+			"pattern": "valuo.vvitovec.com",
+			"zone_name": "vvitovec.com",
+			"custom_domain": true
+		}
+	],
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "praha-price-predictor",
+			"database_id": "3b9220dd-9539-47d3-85e5-342891f7378c"
+		}
+	],
+	"r2_buckets": [
+		{
+			"bucket_name": "praha-price-models",
+			"binding": "MODEL_BUCKET"
+		}
+	]
+}

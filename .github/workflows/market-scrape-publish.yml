@@ -1,0 +1,90 @@
+name: Market Scrape Publish
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      max_listings_per_source:
+        description: "Maximum listings to scrape per source for this run"
+        required: false
+        default: "250"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: market-scrape-publish
+  cancel-in-progress: false
+
+jobs:
+  scrape_publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      MAX_LISTINGS_PER_SOURCE: ${{ github.event.inputs.max_listings_per_source || '250' }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      ALERT_WEBHOOK_URL: ${{ secrets.ALERT_WEBHOOK_URL }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Create virtual environment and install pipeline dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install --upgrade pip
+          .venv/bin/python -m pip install -e ./pipeline[dev]
+
+      - name: Install worker dependencies
+        run: npm ci
+
+      - name: Run scrape and publish
+        run: ./ops/run-scrape-publish.sh
+
+      - name: Write workflow summary
+        if: always()
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+
+          report_path = Path("data/reports/pipeline-scrape-latest.json")
+          if not report_path.exists():
+              print("## Scrape run\nNo scrape report was produced.")
+          else:
+              report = json.loads(report_path.read_text(encoding="utf-8"))
+              summary = report.get("summary", {})
+              print("## Scrape run")
+              print(f"- Status: `{report.get('status')}`")
+              print(f"- Finished: `{report.get('finishedAt')}`")
+              print(f"- Curated rows: `{summary.get('curatedRows', 'n/a')}`")
+              print(f"- Market opportunities: `{summary.get('marketOpportunitiesRows', 'n/a')}`")
+              print(f"- Degraded sources: `{', '.join(summary.get('degradedSources', [])) or 'none'}`")
+          PY
+
+      - name: Send failure alert
+        if: failure()
+        run: ./ops/send-alert.sh scrape failed "GitHub Actions run ${GITHUB_RUN_ID}"
+
+      - name: Upload pipeline outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: market-scrape-publish-${{ github.run_id }}
+          if-no-files-found: warn
+          path: |
+            artifacts/*.json
+            data/reports/*.json
+            data/normalized/*.parquet

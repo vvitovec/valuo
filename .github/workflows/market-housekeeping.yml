@@ -1,0 +1,41 @@
+name: Market Housekeeping
+
+on:
+  schedule:
+    - cron: "20 2 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  housekeeping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      ALERT_WEBHOOK_URL: ${{ secrets.ALERT_WEBHOOK_URL }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install worker dependencies
+        run: npm ci
+
+      - name: Run D1 housekeeping
+        run: ./ops/run-housekeeping.sh
+
+      - name: Write workflow summary
+        if: always()
+        run: echo "Housekeeping finished at $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Send failure alert
+        if: failure()
+        run: ./ops/send-alert.sh housekeeping failed "GitHub Actions run ${GITHUB_RUN_ID}"

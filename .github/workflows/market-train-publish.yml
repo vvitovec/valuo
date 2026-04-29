@@ -1,0 +1,86 @@
+name: Market Train Publish
+
+on:
+  schedule:
+    - cron: "35 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: market-train-publish
+  cancel-in-progress: false
+
+jobs:
+  train_publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      ALERT_WEBHOOK_URL: ${{ secrets.ALERT_WEBHOOK_URL }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Create virtual environment and install pipeline dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install --upgrade pip
+          .venv/bin/python -m pip install -e ./pipeline[dev]
+
+      - name: Install worker dependencies
+        run: npm ci
+
+      - name: Run train and publish
+        run: ./ops/run-train-publish.sh
+
+      - name: Write workflow summary
+        if: always()
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+
+          report_path = Path("data/reports/pipeline-train-latest.json")
+          if not report_path.exists():
+              print("## Train run\nNo train report was produced.")
+          else:
+              report = json.loads(report_path.read_text(encoding="utf-8"))
+              summary = report.get("summary", {})
+              print("## Train run")
+              print(f"- Status: `{report.get('status')}`")
+              print(f"- Finished: `{report.get('finishedAt')}`")
+              print(f"- Active model: `{summary.get('activeModelVersion', 'n/a')}`")
+              print(f"- Candidate model: `{summary.get('latestCandidateVersion', 'n/a')}`")
+              print(f"- Promoted: `{summary.get('promoted')}`")
+              print(f"- Promotion reason: `{summary.get('promotionReason', 'n/a')}`")
+              print(f"- Curated rows: `{summary.get('curatedRows', 'n/a')}`")
+          PY
+
+      - name: Send failure alert
+        if: failure()
+        run: ./ops/send-alert.sh train failed "GitHub Actions run ${GITHUB_RUN_ID}"
+
+      - name: Upload pipeline outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: market-train-publish-${{ github.run_id }}
+          if-no-files-found: warn
+          path: |
+            artifacts/*.json
+            data/reports/*.json
+            data/normalized/*.parquet

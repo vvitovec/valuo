@@ -1,0 +1,23 @@
+{
+  "name": "housespredict-v2",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "worker-app"
+  ],
+  "scripts": {
+    "install:python": ".venv/bin/python -m pip install -e ./pipeline[dev]",
+    "probe:sources": ".venv/bin/python -m praha_predictor.cli probe-sources --sample-size 20",
+    "scrape": ".venv/bin/python -m praha_predictor.cli scrape --max-listings-per-source 250",
+    "train": ".venv/bin/python -m praha_predictor.cli train",
+    "backfill": ".venv/bin/python -m praha_predictor.cli backfill --target-curated-rows 1000 --max-rounds 10 --max-listings-per-source 250",
+    "status": ".venv/bin/python -m praha_predictor.cli status",
+    "publish:cloudflare": "./ops/publish-cloudflare.sh",
+    "refresh": "./ops/run-refresh.sh",
+    "run-all": ".venv/bin/python -m praha_predictor.cli run-all --max-listings-per-source 250",
+    "test:python": ".venv/bin/python -m pytest pipeline/tests",
+    "test:worker": "npm run test --workspace worker-app",
+    "typecheck:worker": "npm run typecheck --workspace worker-app",
+    "test": "npm run test:worker && npm run test:python"
+  }
+}

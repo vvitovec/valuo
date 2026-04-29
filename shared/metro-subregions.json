@@ -1,0 +1,28 @@
+{
+  "subregions": [
+    {
+      "canonical": "Praha-východ",
+      "aliases": ["praha-vychod", "praha vychod", "okres praha-vychod", "okres praha vychod", "říčany", "ricany", "říčany mapa", "ricany mapa", "brandys nad labem-stara boleslav", "brandýs nad labem-stará boleslav", "stara boleslav", "stará boleslav", "brandys nad labem", "brandýs nad labem", "celakovice", "čelákovice", "uvaly", "úvaly", "klecany", "odolena voda", "odolená voda"]
+    },
+    {
+      "canonical": "Praha-západ",
+      "aliases": ["praha-zapad", "praha zapad", "okres praha-zapad", "okres praha zapad", "cernosice", "černošice", "jesenice", "hostivice", "roztoky", "rudna", "rudná", "unhost", "unhošť", "dobrichovice", "dobřichovice", "horomerice", "horoměřice"]
+    },
+    {
+      "canonical": "Kladno",
+      "aliases": ["kladno", "okres kladno", "kladno mapa", "krocehlavy", "švermov", "svermov", "dubi", "dubí"]
+    },
+    {
+      "canonical": "Beroun",
+      "aliases": ["beroun", "okres beroun", "beroun mapa", "beroun-zavodi", "beroun-závodí", "beroun-mesto", "beroun-město", "rudna u prahy", "rudná u prahy"]
+    },
+    {
+      "canonical": "Mělník",
+      "aliases": ["melnik", "mělník", "okres melnik", "okres mělník", "mělník mapa", "melnik mapa", "kralupy nad vltavou", "kralupy", "kralupy mapa"]
+    },
+    {
+      "canonical": "Benešov",
+      "aliases": ["benesov", "benešov", "okres benesov", "okres benešov", "benešov mapa", "benesov mapa"]
+    }
+  ]
+}

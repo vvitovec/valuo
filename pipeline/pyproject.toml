@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=80", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "praha-predictor"
+version = "0.1.0"
+description = "Scraper, data-quality pipeline, and model training for Prague residential asking-price prediction."
+requires-python = ">=3.14"
+dependencies = [
+  "duckdb>=1.2.2",
+  "h3>=4.4.2",
+  "interpret-core>=0.7.8",
+  "numpy>=2.2.0",
+  "pandas>=2.3.0",
+  "pyarrow>=20.0.0",
+  "scikit-learn>=1.7.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3.0"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

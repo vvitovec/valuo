@@ -1,0 +1,41 @@
+{
+  "source": "Curated from Prague PID/rail public stop geography for static proximity features.",
+  "metroNodes": [
+    { "name": "Dejvicka", "lat": 50.1006, "lng": 14.3944 },
+    { "name": "Nadrazi Veleslavin", "lat": 50.095, "lng": 14.3475 },
+    { "name": "Andel", "lat": 50.0685, "lng": 14.4048 },
+    { "name": "Smichovske nadrazi", "lat": 50.0627, "lng": 14.4098 },
+    { "name": "Karlovo namesti", "lat": 50.0755, "lng": 14.4182 },
+    { "name": "Muzeum", "lat": 50.0798, "lng": 14.4307 },
+    { "name": "Mustek", "lat": 50.0835, "lng": 14.4246 },
+    { "name": "Florenc", "lat": 50.0909, "lng": 14.44 },
+    { "name": "Vysehrad", "lat": 50.0641, "lng": 14.4302 },
+    { "name": "Pankrac", "lat": 50.05, "lng": 14.4397 },
+    { "name": "Budejovicka", "lat": 50.0446, "lng": 14.448 },
+    { "name": "Kacerov", "lat": 50.0417, "lng": 14.4591 },
+    { "name": "Palmovka", "lat": 50.1036, "lng": 14.4747 },
+    { "name": "Ceskomoravska", "lat": 50.1061, "lng": 14.4932 },
+    { "name": "Cerny Most", "lat": 50.1091, "lng": 14.5771 },
+    { "name": "Kobylisy", "lat": 50.1246, "lng": 14.452 },
+    { "name": "Ladvi", "lat": 50.1265, "lng": 14.4693 },
+    { "name": "Nadrazi Holesovice", "lat": 50.1108, "lng": 14.4398 },
+    { "name": "Skalka", "lat": 50.0687, "lng": 14.5074 },
+    { "name": "Zlicin", "lat": 50.0537, "lng": 14.291 },
+    { "name": "Strizkov", "lat": 50.1262, "lng": 14.4936 },
+    { "name": "Prosek", "lat": 50.1192, "lng": 14.5004 }
+  ],
+  "railNodes": [
+    { "name": "Praha hlavni nadrazi", "lat": 50.083, "lng": 14.4355 },
+    { "name": "Praha Masarykovo nadrazi", "lat": 50.0882, "lng": 14.4386 },
+    { "name": "Praha Holesovice", "lat": 50.1107, "lng": 14.4386 },
+    { "name": "Praha Liben", "lat": 50.1047, "lng": 14.5025 },
+    { "name": "Praha Smichov", "lat": 50.0616, "lng": 14.4092 },
+    { "name": "Praha Vrsovice", "lat": 50.0679, "lng": 14.4567 },
+    { "name": "Praha Vysocany", "lat": 50.1108, "lng": 14.5011 },
+    { "name": "Praha Dejvice", "lat": 50.1008, "lng": 14.3955 },
+    { "name": "Praha Cakovice", "lat": 50.1531, "lng": 14.5254 },
+    { "name": "Roztoky u Prahy", "lat": 50.1604, "lng": 14.397 },
+    { "name": "Ricany", "lat": 49.9911, "lng": 14.6546 },
+    { "name": "Kladno", "lat": 50.147, "lng": 14.102 }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "districts": [
+    {
+      "canonical": "Praha 1",
+      "aliases": ["praha 1", "obvod praha 1", "stare mesto", "staré město", "josefov", "mala strana", "malá strana", "hradcany", "hradčany"]
+    },
+    {
+      "canonical": "Praha 2",
+      "aliases": ["praha 2", "obvod praha 2", "vinohrady", "vysehrad", "vyšehrad", "nusle"]
+    },
+    {
+      "canonical": "Praha 3",
+      "aliases": ["praha 3", "obvod praha 3", "zizkov", "žižkov", "jarov", "vinohrady 3"]
+    },
+    {
+      "canonical": "Praha 4",
+      "aliases": ["praha 4", "obvod praha 4", "chodov", "modrany", "modřany", "braník", "branik", "kunratice", "chodovec", "cholupice", "ujezd u pruhonic", "újezd u průhonic", "michle", "krc", "krč", "libus", "libuš", "kamyk", "kamýk", "haje", "háje"]
+    },
+    {
+      "canonical": "Praha 5",
+      "aliases": ["praha 5", "obvod praha 5", "smichov", "smíchov", "radlice", "kosire", "košíře", "motol", "stodulky", "stodůlky", "hlubocepy", "hlubočepy", "jinonice", "zbraslav", "lipence"]
+    },
+    {
+      "canonical": "Praha 6",
+      "aliases": ["praha 6", "obvod praha 6", "dejvice", "brevnov", "břevnov", "vokovice", "ruzyně", "ruzyne", "liboc", "suchdol"]
+    },
+    {
+      "canonical": "Praha 7",
+      "aliases": ["praha 7", "obvod praha 7", "holesovice", "holešovice", "letna", "letná", "bubeneč", "bubenec", "troja"]
+    },
+    {
+      "canonical": "Praha 8",
+      "aliases": ["praha 8", "obvod praha 8", "karlin", "karlín", "liben 8", "libeň 8", "kobylisy", "palmovka", "bohnice", "dablice", "ďáblice", "dolni chabry", "dolní chabry"]
+    },
+    {
+      "canonical": "Praha 9",
+      "aliases": ["praha 9", "obvod praha 9", "vysocany", "vysočany", "liben", "libeň", "letnany", "letňany", "prosek", "horni pocernice", "horní počernice", "dolni pocernice", "dolní počernice", "kbely", "hloubetin", "hloubětín", "kyje", "hostavice", "satalice", "ujezd nad lesy", "újezd nad lesy", "cerny most", "černý most"]
+    },
+    {
+      "canonical": "Praha 10",
+      "aliases": ["praha 10", "obvod praha 10", "strasnice", "strašnice", "vrsovice", "vršovice", "hostivar", "hostivař", "malesice", "malešice", "zabehlice", "záběhlice", "kreslice", "křeslice", "kralovice", "královice", "horni mecholupy", "horní měcholupy", "dolni mecholupy", "dolní měcholupy", "pitkovice"]
+    }
+  ]
+}
