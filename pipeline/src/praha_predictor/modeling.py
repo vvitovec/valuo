@@ -74,6 +74,20 @@ CHALLENGER_CANDIDATES = (
 )
 
 
+def ensure_runtime_model_artifacts() -> None:
+    ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
+    if not ACTIVE_MODEL_PATH.exists() and WORKER_ACTIVE_MODEL_PATH.exists():
+        ACTIVE_MODEL_PATH.write_text(
+            WORKER_ACTIVE_MODEL_PATH.read_text(encoding="utf-8"),
+            encoding="utf-8",
+        )
+    if not MODEL_REGISTRY_PATH.exists() and WORKER_REGISTRY_PATH.exists():
+        MODEL_REGISTRY_PATH.write_text(
+            WORKER_REGISTRY_PATH.read_text(encoding="utf-8"),
+            encoding="utf-8",
+        )
+
+
 def _mape(actual: np.ndarray, predicted: np.ndarray) -> float:
     safe_actual = np.maximum(np.abs(actual), 1.0)
     return float(np.mean(np.abs(actual - predicted) / safe_actual))
@@ -613,7 +627,7 @@ def _bootstrap_registry(curated_row_count: int) -> dict[str, Any]:
 
 
 def load_model_registry(curated_row_count: int) -> dict[str, Any]:
-    ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
+    ensure_runtime_model_artifacts()
     if MODEL_REGISTRY_PATH.exists():
         return json.loads(MODEL_REGISTRY_PATH.read_text(encoding="utf-8"))
     registry = _bootstrap_registry(curated_row_count)
@@ -1191,7 +1205,7 @@ def train_and_export(curated_frame: pd.DataFrame, config: PipelineConfig | None 
 
 
 def write_training_artifacts(training_artifacts: TrainingArtifacts) -> dict[str, Path]:
-    ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
+    ensure_runtime_model_artifacts()
     WORKER_MODEL_DIR.mkdir(parents=True, exist_ok=True)
     WORKER_MANIFEST_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -1246,6 +1260,7 @@ def write_training_artifacts(training_artifacts: TrainingArtifacts) -> dict[str,
 
 
 def refresh_active_model_runtime_metadata(curated_frame: pd.DataFrame) -> None:
+    ensure_runtime_model_artifacts()
     if not ACTIVE_MODEL_PATH.exists():
         return
     active_model = json.loads(ACTIVE_MODEL_PATH.read_text(encoding="utf-8"))

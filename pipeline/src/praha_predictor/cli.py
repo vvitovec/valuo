@@ -22,6 +22,7 @@ from praha_predictor.config import (
 from praha_predictor.http import HttpFetchError
 from praha_predictor.modeling import (
     ACTIVE_MODEL_PATH,
+    ensure_runtime_model_artifacts,
     refresh_active_model_runtime_metadata,
     train_and_export,
     write_training_artifacts,
@@ -477,6 +478,7 @@ def _refresh_outputs(*, train_model: bool) -> dict[str, Any]:
         for label, path in artifact_paths.items():
             print(f"{label}: {path}")
 
+    ensure_runtime_model_artifacts()
     refresh_active_model_runtime_metadata(curated_frame)
     opportunities_path = REPORTS_DIR / "market-opportunities-latest.json"
     opportunities_rows = 0
@@ -494,6 +496,7 @@ def _refresh_outputs(*, train_model: bool) -> dict[str, Any]:
         print(f"market_opportunities_over_market: {opportunities_summary['over_market']}")
     else:
         print("market_opportunities: skipped (active model not available)")
+        opportunities_path.write_text(json.dumps([], ensure_ascii=False, indent=2), encoding="utf-8")
     return {
         "curatedRows": int(len(curated_frame)),
         "newCuratedRowsSincePreviousRun": int(report.get("new_curated_rows_since_previous_run", 0)),
