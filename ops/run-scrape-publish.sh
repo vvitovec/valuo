@@ -69,7 +69,12 @@ for path in sorted(reports_dir.glob("source-health-*-latest.json")):
     )
 
 quality = json.loads((reports_dir / "quality-report-latest.json").read_text(encoding="utf-8"))
-market_rows = json.loads((reports_dir / "market-opportunities-latest.json").read_text(encoding="utf-8"))
+market_rows_path = reports_dir / "market-opportunities-latest.json"
+market_rows = (
+    json.loads(market_rows_path.read_text(encoding="utf-8"))
+    if market_rows_path.exists()
+    else []
+)
 summary = {
     "sources": health_reports,
     "curatedRows": quality.get("curated_records", 0),
