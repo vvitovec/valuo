@@ -8,7 +8,7 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
-from interpret.glassbox import ExplainableBoostingRegressor
+from interpret.glassbox._ebm._ebm import ExplainableBoostingRegressor
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import HistGradientBoostingRegressor
 from sklearn.impute import SimpleImputer
