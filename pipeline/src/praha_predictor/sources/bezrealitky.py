@@ -156,12 +156,15 @@ class BezrealitkyAdapter(ListingSourceAdapter):
             ]
             urls: list[str] = []
             for sitemap_url in sitemap_urls:
-                sitemap_xml = fetch_text(
-                    sitemap_url,
-                    self.config,
-                    accept="application/xml,text/xml,*/*",
-                ).text
-                sitemap_root = ET.fromstring(sitemap_xml)
+                try:
+                    sitemap_xml = fetch_text(
+                        sitemap_url,
+                        self.config,
+                        accept="application/xml,text/xml,*/*",
+                    ).text
+                    sitemap_root = ET.fromstring(sitemap_xml)
+                except Exception:
+                    continue
                 urls.extend(
                     loc.text
                     for loc in sitemap_root.findall(".//sm:loc", SITEMAP_NS)

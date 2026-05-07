@@ -20,14 +20,6 @@ from praha_predictor.config import (
     TRAINING_REGISTRY_PATH,
 )
 from praha_predictor.http import HttpFetchError
-from praha_predictor.modeling import (
-    ACTIVE_MODEL_PATH,
-    refresh_active_model_runtime_metadata,
-    train_and_export,
-    write_training_artifacts,
-)
-from praha_predictor.opportunities import build_market_listing_scores
-from praha_predictor.quality import curate_current_view
 from praha_predictor.schemas import RejectReason, RunContext, SourceProbeReport
 from praha_predictor.sources.base import ListingSourceAdapter
 from praha_predictor.sources.bezrealitky import BezrealitkyAdapter
@@ -444,6 +436,15 @@ def run_refresh_outputs() -> int:
 
 
 def _refresh_outputs(*, train_model: bool) -> dict[str, Any]:
+    from praha_predictor.modeling import (
+        ACTIVE_MODEL_PATH,
+        refresh_active_model_runtime_metadata,
+        train_and_export,
+        write_training_artifacts,
+    )
+    from praha_predictor.opportunities import build_market_listing_scores
+    from praha_predictor.quality import curate_current_view
+
     outputs = rebuild_current_views()
     if outputs["normalized"] is None:
         raise RuntimeError("Current normalized view was not produced.")
