@@ -45,6 +45,14 @@ on_exit() {
 }
 trap on_exit EXIT
 
+shopt -s nullglob
+normalized_run_files=("$HOUSESPREDICT_DATA_DIR"/normalized/normalized-run-*.parquet)
+shopt -u nullglob
+if (( ${#normalized_run_files[@]} == 0 )); then
+  echo "No normalized scrape outputs found; running scrape before training."
+  ./ops/run-scrape.sh
+fi
+
 ./ops/run-train.sh
 
 PIPELINE_MODEL_VERSION_AFTER="$(python3 - <<'PY'
@@ -70,7 +78,8 @@ registry = json.loads(
 )
 latest_entry = registry.get("entries", [{}])[0]
 quality = json.loads((reports_dir / "quality-report-latest.json").read_text(encoding="utf-8"))
-market_rows = json.loads((reports_dir / "market-opportunities-latest.json").read_text(encoding="utf-8"))
+market_rows_path = reports_dir / "market-opportunities-latest.json"
+market_rows = json.loads(market_rows_path.read_text(encoding="utf-8")) if market_rows_path.exists() else []
 summary = {
     "activeModelVersion": registry.get("activeModelVersion"),
     "latestCandidateVersion": latest_entry.get("version"),

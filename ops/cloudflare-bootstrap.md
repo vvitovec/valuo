@@ -87,3 +87,4 @@ Enable these workflows and set these repository secrets:
 - `ALERT_WEBHOOK_URL` optional
 
 The GitHub Actions setup provisions Python and Node, runs scrape/publish every 6 hours, train/publish nightly, and uploads generated reports as workflow artifacts.
+Without the Cloudflare secrets, scheduled runs skip remote publish/housekeeping and exit successfully so notification email stays quiet until publishing is configured.

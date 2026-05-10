@@ -91,6 +91,8 @@ GitHub Actions require these repository secrets:
 - `CLOUDFLARE_ACCOUNT_ID`
 - `ALERT_WEBHOOK_URL` optional
 
+If the Cloudflare secrets are missing, the scheduled jobs still produce local reports and artifacts but skip remote publishing/housekeeping instead of failing the workflow.
+
 ## Worker API
 
 - `GET /api/config`

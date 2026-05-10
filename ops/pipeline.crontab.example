@@ -4,8 +4,8 @@ PATH=/usr/local/bin:/usr/bin:/bin
 # One-off bootstrap for a larger immediate dataset:
 # TARGET_CURATED_ROWS=150 MAX_LISTINGS_PER_SOURCE=80 BACKFILL_MAX_ROUNDS=6 /absolute/path/to/HousesPredict-v2/ops/run-backfill.sh
 
-# Scrape Prague listings every 6 hours.
-0 */6 * * * cd /absolute/path/to/HousesPredict-v2 && ./ops/run-scrape.sh >> /var/log/praha-predictor-scrape.log 2>&1
+# Scrape Prague listings and publish the dashboard feed every 6 hours.
+0 */6 * * * cd /absolute/path/to/HousesPredict-v2 && ./ops/run-scrape-publish.sh >> /var/log/praha-predictor-scrape-publish.log 2>&1
 
 # Retrain nightly, apply promotion gates, and publish refreshed artifacts/reports to Cloudflare.
-15 2 * * * cd /absolute/path/to/HousesPredict-v2 && ./ops/run-refresh.sh >> /var/log/praha-predictor-refresh.log 2>&1
+15 2 * * * cd /absolute/path/to/HousesPredict-v2 && ./ops/run-train-publish.sh >> /var/log/praha-predictor-train-publish.log 2>&1

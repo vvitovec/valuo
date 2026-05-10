@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
@@ -16,6 +16,11 @@ MANIFEST_FILE="$TMP_DIR/r2-upload-manifest.tsv"
 SQL_FILE="$TMP_DIR/d1-seed.sql"
 FALLBACK_SQL_FILE="$TMP_DIR/d1-seed-no-transaction.sql"
 PUBLISH_REPORT_PATH=""
+FAILED_COMMAND=""
+
+has_cloudflare_credentials() {
+  [[ -n "${CLOUDFLARE_API_TOKEN:-}" && -n "${CLOUDFLARE_ACCOUNT_ID:-}" ]]
+}
 
 write_publish_report() {
   local publish_status="$1"
@@ -46,7 +51,8 @@ from pathlib import Path
 
 artifacts_dir = Path(os.environ["HOUSESPREDICT_ARTIFACTS_DIR"])
 reports_dir = Path(os.environ["HOUSESPREDICT_DATA_DIR"]) / "reports"
-registry = json.loads((artifacts_dir / "model-registry.json").read_text(encoding="utf-8"))
+registry_path = artifacts_dir / "model-registry.json"
+registry = json.loads(registry_path.read_text(encoding="utf-8")) if registry_path.exists() else {}
 rows_path = reports_dir / "market-opportunities-latest.json"
 rows = json.loads(rows_path.read_text(encoding="utf-8")) if rows_path.exists() else []
 print(
@@ -66,7 +72,7 @@ PY
   PIPELINE_ERROR_JSON="$error_json"
   export PIPELINE_RUN_ID PIPELINE_RUN_TYPE PIPELINE_RUN_STATUS PIPELINE_RUN_STARTED_AT PIPELINE_RUN_FINISHED_AT PIPELINE_SUMMARY_JSON PIPELINE_MODEL_VERSION_BEFORE PIPELINE_MODEL_VERSION_AFTER PIPELINE_ERROR_JSON
   PUBLISH_REPORT_PATH="$(./ops/write-pipeline-run-report.sh)"
-  if [[ -z "$DRY_RUN_DIR" ]]; then
+  if [[ -z "$DRY_RUN_DIR" ]] && has_cloudflare_credentials; then
     ./ops/register-pipeline-run.sh "$PUBLISH_REPORT_PATH" || true
   fi
 }
@@ -74,10 +80,15 @@ PY
 cleanup() {
   rm -rf "$TMP_DIR"
 }
+on_error() {
+  local exit_code=$?
+  FAILED_COMMAND="${BASH_COMMAND:-unknown}"
+  return "$exit_code"
+}
 on_exit() {
   local exit_code=$?
   if [[ $exit_code -ne 0 && -z "$PUBLISH_REPORT_PATH" ]]; then
-    local failed_command="${BASH_COMMAND:-unknown}"
+    local failed_command="${FAILED_COMMAND:-${BASH_COMMAND:-unknown}}"
     local error_json
     error_json="$(FAILED_COMMAND="$failed_command" python3 - <<'PY'
 import json
@@ -90,7 +101,21 @@ PY
   cleanup
   exit "$exit_code"
 }
+trap on_error ERR
 trap on_exit EXIT
+
+if [[ -z "$DRY_RUN_DIR" ]] && ! has_cloudflare_credentials; then
+  error_json="$(
+    python3 - <<'PY'
+import json
+
+print(json.dumps({"message": "Cloudflare publish skipped because GitHub Actions credentials are not configured."}, ensure_ascii=False))
+PY
+  )"
+  write_publish_report "skipped" "$error_json" "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  echo "Cloudflare publish skipped: set CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID to enable remote publish."
+  exit 0
+fi
 
 python3 - <<'PY' > "$MANIFEST_FILE"
 import os

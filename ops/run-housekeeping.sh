@@ -6,6 +6,11 @@ cd "$ROOT_DIR"
 
 source "$ROOT_DIR/ops/runtime-paths.sh"
 
+if [[ -z "${CLOUDFLARE_API_TOKEN:-}" || -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]]; then
+  echo "Housekeeping skipped: set CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID to enable remote D1 cleanup."
+  exit 0
+fi
+
 D1_DATABASE="${CLOUDFLARE_D1_DATABASE:-praha-price-predictor}"
 TMP_DIR="$(mktemp -d)"
 SQL_FILE="$TMP_DIR/housekeeping.sql"

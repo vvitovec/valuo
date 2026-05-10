@@ -19,5 +19,13 @@ export HOUSESPREDICT_ARTIFACTS_DIR="${HOUSESPREDICT_ARTIFACTS_DIR:-$HOUSESPREDIC
 
 mkdir -p "$HOUSESPREDICT_DATA_DIR" "$HOUSESPREDICT_ARTIFACTS_DIR"
 
+if [[ -f "$ROOT_DIR/worker-app/public/models/active-model.json" && ! -f "$HOUSESPREDICT_ARTIFACTS_DIR/active-model.json" ]]; then
+  cp "$ROOT_DIR/worker-app/public/models/active-model.json" "$HOUSESPREDICT_ARTIFACTS_DIR/active-model.json"
+fi
+
+if [[ -f "$ROOT_DIR/worker-app/public/manifests/model-registry.json" && ! -f "$HOUSESPREDICT_ARTIFACTS_DIR/model-registry.json" ]]; then
+  cp "$ROOT_DIR/worker-app/public/manifests/model-registry.json" "$HOUSESPREDICT_ARTIFACTS_DIR/model-registry.json"
+fi
+
 # Avoid bytecode churn inside the synced repo for routine ops runs.
 export PYTHONDONTWRITEBYTECODE="${PYTHONDONTWRITEBYTECODE:-1}"
