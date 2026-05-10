@@ -150,4 +150,23 @@ describe("publish-cloudflare script", () => {
 
     expect(output).toContain("Housekeeping skipped");
   });
+
+  it("writes housekeeping SQL without explicit transactions", () => {
+    const runtimeDir = mkdtempSync(resolve(tmpdir(), "valuo-runtime-"));
+    const dryRunDir = mkdtempSync(resolve(tmpdir(), "valuo-housekeeping-"));
+    cleanupPaths.push(runtimeDir, dryRunDir);
+
+    const output = runScript("ops/run-housekeeping.sh", {
+      HOUSESPREDICT_RUNTIME_DIR: runtimeDir,
+      HOUSEKEEPING_DRY_RUN_DIR: dryRunDir,
+      CLOUDFLARE_API_TOKEN: "",
+      CLOUDFLARE_ACCOUNT_ID: ""
+    });
+
+    const sql = readFileSync(resolve(dryRunDir, "housekeeping.sql"), "utf-8");
+    expect(output).toContain("Housekeeping dry run prepared");
+    expect(sql).toContain("DELETE FROM prediction_audit");
+    expect(sql).not.toContain("BEGIN");
+    expect(sql).not.toContain("COMMIT");
+  });
 });
