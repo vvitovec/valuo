@@ -3,6 +3,287 @@
   "lastPromotedAt": "2026-04-01T06:20:03.800329+00:00",
   "entries": [
     {
+      "version": "model-20260601T015610Z",
+      "trainedAt": "2026-06-01T01:56:14.223860+00:00",
+      "modelKind": "segmented_ebm_regressor",
+      "curatedRowCount": 5336,
+      "trainingWindow": {
+        "from": "2026-03-30T18:02:29.562836+00:00",
+        "to": "2026-05-31T19:57:26.969077+00:00"
+      },
+      "sourceMix": {
+        "realitymix": 4131,
+        "remax": 634,
+        "bezrealitky": 571
+      },
+      "validationSummary": {
+        "grouping": "location_cluster_grouped_cv_plus_per_source_time_holdout",
+        "selectedModel": "segmented_ebm_regressor",
+        "selectedMae": 2441348.040583671,
+        "finalScore": 0.1779074167164567,
+        "timeHoldoutMape": 0.17534375822017842,
+        "balancedSegmentMape": 0.1817529044608742,
+        "metrics": {
+          "baseline_ppm_mae": 3445038.994627227,
+          "ebm_core_mae": 2283934.603126467,
+          "ebm_regressor_mae": 2436753.13377139,
+          "ebm_ppm_regressor_mae": 2506576.6196329687,
+          "blended_ebm_regressor_mae": 2446141.7014312344,
+          "segmented_ebm_regressor_mae": 2441348.040583671,
+          "ebm_interactions_challenger_mae": 2363867.2316341917,
+          "hist_gradient_boosting_challenger_mae": 2477148.285960215,
+          "baseline_ppm_mape": 0.31137061436325425,
+          "ebm_core_mape": 0.19194885034507272,
+          "ebm_regressor_mape": 0.19988691542777406,
+          "ebm_ppm_regressor_mape": 0.20315307822330847,
+          "blended_ebm_regressor_mape": 0.19903592658723696,
+          "segmented_ebm_regressor_mape": 0.19278449427820246,
+          "ebm_interactions_challenger_mape": 0.1904805169203201,
+          "hist_gradient_boosting_challenger_mape": 0.2004238148588712,
+          "baseline_ppm_time_holdout_mae": 2838997.9645217834,
+          "ebm_core_time_holdout_mae": 2350225.786113143,
+          "ebm_regressor_time_holdout_mae": 2217029.8268737188,
+          "ebm_ppm_regressor_time_holdout_mae": 2203083.9905315307,
+          "blended_ebm_regressor_time_holdout_mae": 2181406.0434221183,
+          "segmented_ebm_regressor_time_holdout_mae": 2139708.58284961,
+          "ebm_interactions_challenger_time_holdout_mae": 2150964.480181019,
+          "hist_gradient_boosting_challenger_time_holdout_mae": 2219769.6684869197,
+          "baseline_ppm_time_holdout_mape": 0.24473764719851554,
+          "ebm_core_time_holdout_mape": 0.20819179507041283,
+          "ebm_regressor_time_holdout_mape": 0.18924763655138008,
+          "ebm_ppm_regressor_time_holdout_mape": 0.18209073181710161,
+          "blended_ebm_regressor_time_holdout_mape": 0.18195785088018882,
+          "segmented_ebm_regressor_time_holdout_mape": 0.17534375822017842,
+          "ebm_interactions_challenger_time_holdout_mape": 0.17589731157151078,
+          "hist_gradient_boosting_challenger_time_holdout_mape": 0.17935035640842614,
+          "baseline_ppm_balanced_segment_mape": 0.2375114313750824,
+          "ebm_core_balanced_segment_mape": 0.20023787405603716,
+          "ebm_regressor_balanced_segment_mape": 0.189866563634407,
+          "ebm_ppm_regressor_balanced_segment_mape": 0.18458837565581926,
+          "blended_ebm_regressor_balanced_segment_mape": 0.18410616431066865,
+          "segmented_ebm_regressor_balanced_segment_mape": 0.1817529044608742,
+          "ebm_interactions_challenger_balanced_segment_mape": 0.18450881509927314,
+          "hist_gradient_boosting_challenger_balanced_segment_mape": 0.1839467833267725,
+          "baseline_ppm_final_score": 0.2418471608691423,
+          "ebm_core_final_score": 0.20501022666466256,
+          "ebm_regressor_final_score": 0.18949520738459083,
+          "ebm_ppm_regressor_final_score": 0.18308978935258868,
+          "blended_ebm_regressor_final_score": 0.18281717625238075,
+          "segmented_ebm_regressor_final_score": 0.1779074167164567,
+          "ebm_interactions_challenger_final_score": 0.17934191298261573,
+          "hist_gradient_boosting_challenger_final_score": 0.18118892717576468,
+          "selectedModel": "segmented_ebm_regressor"
+        },
+        "candidates": [
+          {
+            "name": "baseline_ppm",
+            "mae": 3445038.994627227,
+            "mape": 0.31137061436325425,
+            "timeHoldoutMae": 2838997.9645217834,
+            "timeHoldoutMape": 0.24473764719851554,
+            "balancedSegmentMape": 0.2375114313750824,
+            "finalScore": 0.2418471608691423,
+            "segmentMapes": {
+              "bezrealitky|flat": 0.17934360934526236,
+              "realitymix|flat": 0.18980970942030007,
+              "realitymix|house": 0.3987507781622584,
+              "remax|flat": 0.17751966886435172,
+              "remax|house": 0.24213339108323956
+            },
+            "houseMape": 0.390049812213424,
+            "exportable": true
+          },
+          {
+            "name": "ebm_core",
+            "mae": 2283934.603126467,
+            "mape": 0.19194885034507272,
+            "timeHoldoutMae": 2350225.786113143,
+            "timeHoldoutMape": 0.20819179507041283,
+            "balancedSegmentMape": 0.20023787405603716,
+            "finalScore": 0.20501022666466256,
+            "segmentMapes": {
+              "bezrealitky|flat": 0.1490614662721062,
+              "realitymix|flat": 0.15963449859376835,
+              "realitymix|house": 0.349100661172061,
+              "remax|flat": 0.13767561650201993,
+              "remax|house": 0.2057171277402302
+            },
+            "houseMape": 0.3411349093147371,
+            "exportable": true
+          },
+          {
+            "name": "ebm_regressor",
+            "mae": 2436753.13377139,
+            "mape": 0.19988691542777406,
+            "timeHoldoutMae": 2217029.8268737188,
+            "timeHoldoutMape": 0.18924763655138008,
+            "balancedSegmentMape": 0.189866563634407,
+            "finalScore": 0.18949520738459083,
+            "segmentMapes": {
+              "bezrealitky|flat": 0.12484283070949731,
+              "realitymix|flat": 0.13944324377348477,
+              "realitymix|house": 0.3333214319440908,
+              "remax|flat": 0.11418396408808287,
+              "remax|house": 0.23754134765687915
+            },
+            "houseMape": 0.3280003161503568,
+            "exportable": true
+          },
+          {
+            "name": "ebm_ppm_regressor",
+            "mae": 2506576.6196329687,
+            "mape": 0.20315307822330847,
+            "timeHoldoutMae": 2203083.9905315307,
+            "timeHoldoutMape": 0.18209073181710161,
+            "balancedSegmentMape": 0.18458837565581926,
+            "finalScore": 0.18308978935258868,
+            "segmentMapes": {
+              "bezrealitky|flat": 0.1212470525979355,
+              "realitymix|flat": 0.13764396189538067,
+              "realitymix|house": 0.3116308586791841,
+              "remax|flat": 0.11405023138610645,
+              "remax|house": 0.23836977372048954
+            },
+            "houseMape": 0.30756079840370104,
+            "exportable": true
+          },
+          {
+            "name": "blended_ebm_regressor",
+            "mae": 2446141.7014312344,
+            "mape": 0.19903592658723696,
+            "timeHoldoutMae": 2181406.0434221183,
+            "timeHoldoutMape": 0.18195785088018882,
+            "balancedSegmentMape": 0.18410616431066865,
+            "finalScore": 0.18281717625238075,
+            "segmentMapes": {
+              "bezrealitky|flat": 0.11962824597120138,
+              "realitymix|flat": 0.13591064716251844,
+              "realitymix|house": 0.31606659653932945,
+              "remax|flat": 0.11140633428997411,
+              "remax|house": 0.23751899759031983
+            },
+            "houseMape": 0.3117028410421622,
+            "exportable": true
+          },
+          {
+            "name": "segmented_ebm_regressor",
+            "mae": 2441348.040583671,
+            "mape": 0.19278449427820246,
+            "timeHoldoutMae": 2139708.58284961,
+            "timeHoldoutMape": 0.17534375822017842,
+            "balancedSegmentMape": 0.1817529044608742,
+            "finalScore": 0.1779074167164567,
+            "segmentMapes": {
+              "bezrealitky|flat": 0.11430696043658946,
+              "realitymix|flat": 0.13141998604112062,
+              "realitymix|house": 0.30067075980350083,
+              "remax|flat": 0.11332407678961924,
+              "remax|house": 0.24904273923354095
+            },
+            "houseMape": 0.2978025364385031,
+            "exportable": true
+          }
+        ],
+        "challengers": [
+          {
+            "name": "ebm_interactions_challenger",
+            "mae": 2363867.2316341917,
+            "mape": 0.1904805169203201,
+            "timeHoldoutMae": 2150964.480181019,
+            "timeHoldoutMape": 0.17589731157151078,
+            "balancedSegmentMape": 0.18450881509927314,
+            "finalScore": 0.17934191298261573,
+            "segmentMapes": {
+              "bezrealitky|flat": 0.11646642615297713,
+              "realitymix|flat": 0.12790993871425876,
+              "realitymix|house": 0.3078156826457597,
+              "remax|flat": 0.11365939004021028,
+              "remax|house": 0.25669263794315983
+            },
+            "houseMape": 0.3049755134956153,
+            "exportable": false,
+            "readyForBackendServing": false
+          },
+          {
+            "name": "hist_gradient_boosting_challenger",
+            "mae": 2477148.285960215,
+            "mape": 0.2004238148588712,
+            "timeHoldoutMae": 2219769.6684869197,
+            "timeHoldoutMape": 0.17935035640842614,
+            "balancedSegmentMape": 0.1839467833267725,
+            "finalScore": 0.18118892717576468,
+            "segmentMapes": {
+              "bezrealitky|flat": 0.10471453079362628,
+              "realitymix|flat": 0.12413672362906682,
+              "realitymix|house": 0.335613698793086,
+              "remax|flat": 0.10608463782358411,
+              "remax|house": 0.24918432559449938
+            },
+            "houseMape": 0.3308120669487201,
+            "exportable": false,
+            "readyForBackendServing": false
+          }
+        ],
+        "segmentMapes": {
+          "bezrealitky|flat": 0.11430696043658946,
+          "realitymix|flat": 0.13141998604112062,
+          "realitymix|house": 0.30067075980350083,
+          "remax|flat": 0.11332407678961924,
+          "remax|house": 0.24904273923354095
+        },
+        "houseMape": 0.2978025364385031
+      },
+      "promotionReason": "candidate_held_back:segment_guardrail_failed",
+      "promoted": false,
+      "promotedAt": null,
+      "newCuratedRowsSincePreviousActive": 4043,
+      "servingEligible": true,
+      "finalScore": 0.1779074167164567,
+      "timeHoldoutMape": 0.17534375822017842,
+      "balancedSegmentMape": 0.1817529044608742,
+      "readyForBackendServing": false,
+      "challengers": [
+        {
+          "name": "ebm_interactions_challenger",
+          "mae": 2363867.2316341917,
+          "mape": 0.1904805169203201,
+          "timeHoldoutMae": 2150964.480181019,
+          "timeHoldoutMape": 0.17589731157151078,
+          "balancedSegmentMape": 0.18450881509927314,
+          "finalScore": 0.17934191298261573,
+          "segmentMapes": {
+            "bezrealitky|flat": 0.11646642615297713,
+            "realitymix|flat": 0.12790993871425876,
+            "realitymix|house": 0.3078156826457597,
+            "remax|flat": 0.11365939004021028,
+            "remax|house": 0.25669263794315983
+          },
+          "houseMape": 0.3049755134956153,
+          "exportable": false,
+          "readyForBackendServing": false
+        },
+        {
+          "name": "hist_gradient_boosting_challenger",
+          "mae": 2477148.285960215,
+          "mape": 0.2004238148588712,
+          "timeHoldoutMae": 2219769.6684869197,
+          "timeHoldoutMape": 0.17935035640842614,
+          "balancedSegmentMape": 0.1839467833267725,
+          "finalScore": 0.18118892717576468,
+          "segmentMapes": {
+            "bezrealitky|flat": 0.10471453079362628,
+            "realitymix|flat": 0.12413672362906682,
+            "realitymix|house": 0.335613698793086,
+            "remax|flat": 0.10608463782358411,
+            "remax|house": 0.24918432559449938
+          },
+          "houseMape": 0.3308120669487201,
+          "exportable": false,
+          "readyForBackendServing": false
+        }
+      ]
+    },
+    {
       "version": "model-20260531T195349Z",
       "trainedAt": "2026-05-31T19:53:50.263926+00:00",
       "modelKind": "segmented_ebm_regressor",
